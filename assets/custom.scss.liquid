@@ -1,0 +1,58 @@
+// Header Section
+.is-sticky .header__menu-toggle {
+  display: none;
+}
+
+.is-sticky .sticky-menu-wrapper {
+  visibility: visible;
+  opacity: 1;
+  max-height: unset;
+  transition: unset;
+}
+
+@media only screen and (max-width: 798px) {
+  .header__search .search-form {
+    padding-top: 0;
+    padding-bottom: 20px;
+  }
+
+  .mobile-menu__toggle-button {
+    max-height: 55px;
+  }
+}
+// End header section
+
+// Collection Page
+.custom-add-to-cart {
+  width: auto;
+  margin: 10px auto;
+  display: block;
+}
+
+#shopify-section-collection__main {
+  .collection__main {
+    .collection-matrix__wrapper {
+      .container {
+        & > div {
+          display: flex;
+          flex-direction: column;
+          & > form {
+            margin-top: auto;
+          }
+        }
+      }
+    }
+  }
+}
+// End collection Page
+
+// Megamenu app
+.meteor-menu[data-meteor-template=vertical] {
+  top: 110px !important;
+}
+
+.meteor-menu[data-meteor-template=solar] a.m-link {
+  padding-top: .5em !important;
+  padding-bottom: .5em !important;
+}
+// End Megamenu app
