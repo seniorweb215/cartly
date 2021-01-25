@@ -195,7 +195,7 @@
   {% endif %}
 
   {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
-  <form method="post" action="/cart/add">
+  <form method="post" action="/cart/add" class="custom-form">
     <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
     {% comment %} <input type="hidden" id="quantity" name="quantity" value="1"/> {% endcomment %}
     {% assign added_to_cart = false %}

@@ -102,48 +102,91 @@ Shopify.theme.jsAjaxCart = {
     this.ajaxCartDrawer.removeClass('is-visible');
     $('.ajax-cart__overlay').removeClass('is-visible');
   },
-  updateCollectionPage: function updateCollectionPage($addToCartForm) {
+  updateCollectionPage: function updateCollectionPage() {
     var html = "";
-    var maxLineItem = 0;
-
-    $(".ajax-cart__list > div").each(function() {
+    
+    $(".ajax-cart__form:not(.is-hidden)").find(".ajax-cart__list > div").each(function() {
+      var productID = parseInt($(this).data('cart-item'));
       var lineItem = parseInt($(this).data('line-item'));
-      if(maxLineItem < lineItem) {
-        maxLineItem = lineItem;
-      }
+      var quantity = parseInt($(this).find('input.quantity-input').val());
+      
+      html = '<input type="hidden" name="id" value="' + productID + '">';
+      html += '<div class="product-quantity-box" data-line-item="' + lineItem + '" data-line-item-key="' + lineItem + '">';
+      html += '<label class="label is-sr-only" for="quantity">Qty</label>';
+      html += '<div class="quantity-wrapper field has-addons quantity-style--box is-medium">' +
+                '<div class="control minus-control">' +
+                  '<span class="quantity-minus quantity-element button is-inverse" data-update-quantity="minus" disabled="">' +
+                    '<span class="icon " data-icon="minus">' +
+                      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+                        '<g id="minus">' +
+                          '<rect x="5" y="46" width="90" height="8"></rect>' +
+                        '</g>' +
+                      '</svg>' +
+                    '</span>' +
+                  '</span>' +
+                '</div>' +
+                '<div class="control quantity-input-control quantity-input-control--fill"> <input class="quantity-input quantity-element input" type="number" min="1" size="2" name="quantity" value="' + quantity + '" data-max-inventory-management="" data-line-id=""></div>' +
+                '<div class="control plus-control">' +
+                  '<span class="quantity-plus quantity-element button is-inverse" data-update-quantity="plus">' +
+                    '<span class="icon " data-icon="plus">' +
+                      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+                        '<g id="plus">' +
+                          '<polygon points="95 46 54 46 54 5 46 5 46 46 5 46 5 54 46 54 46 95 54 95 54 54 95 54 95 46"></polygon>' +
+                        '</g>' +
+                      '</svg>' +
+                    '</span>' +
+                  '</span>' +
+                '</div>' +
+              '</div>';
+      html += "</div>";
+
+      $("form.custom-form input[value='" + productID + "']").parent().html(html);
     });
 
-    html = '<div class="product-quantity-box" data-line-item="' + (maxLineItem + 1) + '" data-line-item-key="' + (maxLineItem + 1) + '">';
-    html += '<label class="label is-sr-only" for="quantity">Qty</label>';
-    html += '<div class="quantity-wrapper field has-addons quantity-style--box is-medium">' +
-              '<div class="control minus-control">' +
-                '<span class="quantity-minus quantity-element button is-inverse" data-update-quantity="minus" disabled="">' +
-                  '<span class="icon " data-icon="minus">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
-                      '<g id="minus">' +
-                        '<rect x="5" y="46" width="90" height="8"></rect>' +
-                      '</g>' +
-                    '</svg>' +
-                  '</span>' +
-                '</span>' +
-              '</div>' +
-              '<div class="control quantity-input-control quantity-input-control--fill"> <input class="quantity-input quantity-element input" type="number" min="1" size="2" name="quantity" value="1" data-max-inventory-management="" data-line-id=""></div>' +
-              '<div class="control plus-control">' +
-                '<span class="quantity-plus quantity-element button is-inverse" data-update-quantity="plus">' +
-                  '<span class="icon " data-icon="plus">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
-                      '<g id="plus">' +
-                        '<polygon points="95 46 54 46 54 5 46 5 46 46 5 46 5 54 46 54 46 95 54 95 54 54 95 54 95 46"></polygon>' +
-                      '</g>' +
-                    '</svg>' +
-                  '</span>' +
-                '</span>' +
-              '</div>' +
-            '</div>';
-    html += "</div>";
-
-    $addToCartForm.find("button").remove();
-    $addToCartForm.append(html);
+    // if(newQty == 0) {
+    //   $(".ajax-cart__form:not(.is-hidden)").find(".ajax-cart__list > div").each(function() {
+    //     var cartItem = parseInt($(this).data('cart-item'));
+    //     if($addToCartForm.find("input[name='id']").val() == cartItem) {
+    //       lineItem = $(this).data('line-item')
+    //     }
+    //   });
+  
+    //   html = '<div class="product-quantity-box" data-line-item="' + lineItem + '" data-line-item-key="' + lineItem + '">';
+    //   html += '<label class="label is-sr-only" for="quantity">Qty</label>';
+    //   html += '<div class="quantity-wrapper field has-addons quantity-style--box is-medium">' +
+    //             '<div class="control minus-control">' +
+    //               '<span class="quantity-minus quantity-element button is-inverse" data-update-quantity="minus" disabled="">' +
+    //                 '<span class="icon " data-icon="minus">' +
+    //                   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+    //                     '<g id="minus">' +
+    //                       '<rect x="5" y="46" width="90" height="8"></rect>' +
+    //                     '</g>' +
+    //                   '</svg>' +
+    //                 '</span>' +
+    //               '</span>' +
+    //             '</div>' +
+    //             '<div class="control quantity-input-control quantity-input-control--fill"> <input class="quantity-input quantity-element input" type="number" min="1" size="2" name="quantity" value="1" data-max-inventory-management="" data-line-id=""></div>' +
+    //             '<div class="control plus-control">' +
+    //               '<span class="quantity-plus quantity-element button is-inverse" data-update-quantity="plus">' +
+    //                 '<span class="icon " data-icon="plus">' +
+    //                   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+    //                     '<g id="plus">' +
+    //                       '<polygon points="95 46 54 46 54 5 46 5 46 46 5 46 5 54 46 54 46 95 54 95 54 54 95 54 95 46"></polygon>' +
+    //                     '</g>' +
+    //                   '</svg>' +
+    //                 '</span>' +
+    //               '</span>' +
+    //             '</div>' +
+    //           '</div>';
+    //   html += "</div>";
+  
+    //   $addToCartForm.find("button").remove();
+    //   $addToCartForm.append(html);
+    // } else {
+    //   var currentQty = $addToCartForm.find("input.quantity-input").val();
+    //   var totalQty = parseInt(currentQty) + parseInt(newQty);
+    //   $addToCartForm.find("input.quantity-input").val(totalQty);
+    // }
   },
   updateCollectionItem: function updateCollectionItem(lineID) {
     var $form = $(".product-quantity-box[data-line-item=\"".concat(lineID, "\"]")).parent();
@@ -164,7 +207,7 @@ Shopify.theme.jsAjaxCart = {
       data: 'quantity=0&line=' + lineID,
       dataType: 'json',
       success: function success(cart) {
-        Shopify.theme.jsAjaxCart.updateView();
+        Shopify.theme.jsAjaxCart.updateView('delete');
         Shopify.theme.jsAjaxCart.updateCollectionItem(lineID);
       },
       error: function error(XMLHttpRequest, textStatus) {
@@ -233,8 +276,7 @@ Shopify.theme.jsAjaxCart = {
           $addToCartBtn.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', addedToCart);
         }, 1000);
         // Shopify.theme.jsAjaxCart.showDrawer();
-        Shopify.theme.jsAjaxCart.updateCollectionPage($addToCartForm);
-        Shopify.theme.jsAjaxCart.updateView();
+        Shopify.theme.jsAjaxCart.updateView('update', $addToCartForm);
 
         if (Shopify.theme.jsCart) {
           var _$$ajax;
@@ -261,7 +303,7 @@ Shopify.theme.jsAjaxCart = {
       }
     });
   },
-  updateView: function updateView() {
+  updateView: function updateView(type, form) {
     Shopify.theme.asyncView.load(Shopify.routes.cart_url, // template name
     'ajax' // view name (suffix)
     ).done(function (_ref3) {
@@ -286,6 +328,10 @@ Shopify.theme.jsAjaxCart = {
 
       if (Currency.show_multiple_currencies) {
         Shopify.theme.currencyConverter.convertCurrencies();
+      }
+
+      if(type == 'update') {
+        Shopify.theme.jsAjaxCart.updateCollectionPage();
       }
     }).fail(function () {// some error handling
     });
